@@ -26,8 +26,6 @@ public class MyThreadPoolThread extends Thread {
 	@Override
 	public void run() {
 		while (execute.get() && !runnables.isEmpty()) {
-			System.out.println("Thread started");
-			System.out.println(runnables);
 			Runnable runnable;
 			while ((runnable = runnables.poll()) != null) {
 				System.out.println("Thread: " + this.getName() + ", has picked up a new task");

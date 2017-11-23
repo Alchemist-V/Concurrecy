@@ -49,12 +49,12 @@ public class MyThreadPool {
 		for (int i = 0; i < THREAD_COUNT; i++) {
 			MyThreadPoolThread thread = new MyThreadPoolThread(getThreadName(), threadExecute, runnables);
 			threads.add(thread);
-			thread.run();
+			thread.start();
 		}
 	}
 
 	public void submitRunnableTask(Runnable runnable) {
-		this.runnables.add(runnable);
+		runnables.add(runnable);
 	}
 
 	private String getThreadName() {

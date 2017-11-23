@@ -3,6 +3,13 @@
  */
 package com.vraj.playground.threads;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+import com.vraj.playground.threads.task.SampleThreadPoolTask;
+import com.vraj.playground.threads.task.SampleThreadPoolTaskFactory;
+
 /**
  * @author vrajori
  *
@@ -12,24 +19,10 @@ public class MyThreadPoolDriver {
 	private static MyThreadPool threadPool;
 
 	public static void main(String[] args) {
+
 		threadPool = new MyThreadPool();
-		Runnable runnable = new Runnable() {
-
-			public void run() {
-				System.out.println("This is a dummy runnable task");
-				try {
-					System.out.println("Sleeping for 1 second.");
-					Thread.sleep(1000);
-					System.out.println("Awake after 1 second.");
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		};
-
-		threadPool.submitRunnableTask(runnable);
-
+		for (int i = 0; i < 10; i++) {
+			threadPool.submitRunnableTask(SampleThreadPoolTaskFactory.getSampleThreadPoolTask());
+		}
 	}
-
 }
