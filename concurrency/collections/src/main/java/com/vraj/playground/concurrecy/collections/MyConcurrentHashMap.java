@@ -3,11 +3,14 @@ package com.vraj.playground.concurrecy.collections;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Concurrent hash map.
+ * Simple Concurrent hash map.
  *
  * @author Vikas Rajoria
  *
@@ -132,8 +135,25 @@ public class MyConcurrentHashMap {
 		myCCHashMap.put(9, "B");
 		myCCHashMap.put(17, "C");
 		myCCHashMap.put(9, "blah blah");
-		System.out.println(myCCHashMap.get(1));
-		System.out.println(myCCHashMap.get(9));
-		System.out.println(myCCHashMap.get(17));
+
+		ExecutorService e = Executors.newFixedThreadPool(4);
+
+		test(e, myCCHashMap);
+		System.out.println(myCCHashMap.get(20));
+		e.shutdown();
+
+	}
+
+	public static void test(ExecutorService e, final MyConcurrentHashMap map) {
+		for (int i = 0; i < 120; i++) {
+			final int val = i;
+			final int testKey = 20;
+			e.execute(new Runnable() {
+				public void run() {
+					map.put(testKey, "entry-" + String.valueOf(val));
+					map.get(testKey);
+				}
+			});
+		}
 	}
 }
