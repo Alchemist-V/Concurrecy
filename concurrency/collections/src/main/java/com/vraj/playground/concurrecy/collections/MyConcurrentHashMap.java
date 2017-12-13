@@ -88,6 +88,7 @@ public class MyConcurrentHashMap {
 				MapEntry entry = (MapEntry) (targetList.get(i));
 				if (entry != null && entry.key.equals(key)) {
 					entry.value = value;
+					System.out.println("updated value: " + value + ", for key: " + key);
 					targetLock.unlock();
 					return true;
 				}
@@ -139,8 +140,8 @@ public class MyConcurrentHashMap {
 		ExecutorService e = Executors.newFixedThreadPool(4);
 
 		test(e, myCCHashMap);
-		System.out.println(myCCHashMap.get(20));
 		e.shutdown();
+		// System.out.println(myCCHashMap.get(20));
 
 	}
 
